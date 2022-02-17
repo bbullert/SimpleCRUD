@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SimpleCRUD.Infrastructure.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,7 @@ namespace SimpleCRUD.Infrastructure
         {
 
         }
+
+        public DbSet<Employee> Employees { get; set; }
     }
 }
