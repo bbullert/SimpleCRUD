@@ -1,4 +1,5 @@
-﻿using SimpleCRUD.Infrastructure.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using SimpleCRUD.Infrastructure.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,25 +17,39 @@ namespace SimpleCRUD.Infrastructure.Repositories
             _appDbContext = appDbContext;
         }
 
-        public void Create(Employee employee)
+        public async Task CreateAsync(Employee employee)
         {
-            _appDbContext.Employees.Add(employee);
-            _appDbContext.SaveChanges();
+            await _appDbContext.Employees.AddAsync(employee);
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public IEnumerable<Employee> Read()
+        public async Task<IEnumerable<Employee>> ReadAsync(int skip = 0, int limit = 20)
         {
-            return _appDbContext.Employees.ToList();
+            return await _appDbContext.Employees
+                .OrderBy(x => x.FirstName)
+                .ThenBy(x => x.LastName)
+                .ThenBy(x => x.BirthDate)
+                .ThenBy(x => x.Email)
+                .ThenBy(x => x.PhoneNumber)
+                .ThenBy(x => x.Salary)
+                .Skip(skip)
+                .Take(limit)
+                .ToListAsync();
         }
 
-        public Employee Read(int id)
+        public async Task<int> CountAsync()
         {
-            return _appDbContext.Employees.FirstOrDefault(x => x.Id == id);
+            return await _appDbContext.Employees.CountAsync();
         }
 
-        public void Update(int id, Employee model)
+        public async Task<Employee> ReadAsync(int id)
         {
-            var employee = Read(id);
+            return await _appDbContext.Employees.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task UpdateAsync(int id, Employee model)
+        {
+            var employee = await ReadAsync(id);
 
             if (employee != null)
             {
@@ -44,18 +59,18 @@ namespace SimpleCRUD.Infrastructure.Repositories
                 employee.Email = model.Email;
                 employee.PhoneNumber = model.PhoneNumber;
                 employee.Salary = model.Salary;
-                _appDbContext.SaveChanges();
+                await _appDbContext.SaveChangesAsync();
             }
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var employee = Read(id);
+            var employee = await ReadAsync(id);
 
             if (employee != null)
             {
                 _appDbContext.Employees.Remove(employee);
-                _appDbContext.SaveChanges();
+                await _appDbContext.SaveChangesAsync();
             }
         }
     }
