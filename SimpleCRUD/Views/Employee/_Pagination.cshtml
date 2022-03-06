@@ -1,0 +1,30 @@
+﻿@model EmployeePaginationViewModel
+
+<p>
+    @( (Model.PageNumber - 1) * Model.PageSize )
+    <span> - </span>
+    @( Math.Min(Model.PageNumber * Model.PageSize, Model.TotalRecords) )
+    <span> of @Model.TotalRecords results</span>
+</p>
+<nav>
+  <ul class="pagination">
+    <li class="page-item @(Model.PageNumber == Model.FirstPage ? "disabled" : "")">
+      <a class="page-link" href=@Url.Action(null, null, new { page = Model.FirstPage })>&laquo;</a>
+    </li>
+    <li class="page-item @(Model.PreviousPage == null ? "disabled" : "")">
+      <a class="page-link" href=@Url.Action(null, null, new { page = Model.PreviousPage })>&lsaquo;</a>
+    </li>
+    @for (int i = Model.PagerStartIndex; i < Model.PagerStartIndex + Model.PagerLength; i++)
+    {
+        <li class="page-item @(Model.PageNumber == i ? "active" : "")">
+            <a class="page-link" href=@Url.Action("Index", "Employee", new { page = i } )>@i</a>
+        </li>
+    }
+    <li class="page-item @(Model.NextPage == null ? "disabled" : "")">
+      <a class="page-link" href=@Url.Action(null, null, new { page = Model.NextPage })>&rsaquo;</a>
+    </li>
+    <li class="page-item @(Model.PageNumber == Model.LastPage? "disabled" : "")">
+      <a class="page-link" href=@Url.Action(null, null, new { page = Model.LastPage })>&raquo;</a>
+    </li>
+  </ul>
+</nav>

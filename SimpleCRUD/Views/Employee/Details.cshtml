@@ -1,0 +1,69 @@
+﻿@model EmployeeViewModel
+
+@{
+    ViewData["Title"] = "Employee Details";
+}
+
+@using (@Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="row">
+		
+		<div class="col-12 my-3">
+			<h3 class="">Details</h3>
+			<h6 class="">Informations about an employee.</h6>
+			<hr />
+		</div>
+		
+		@Html.HiddenFor(model => model.Id)
+
+		<div class="col-md-6 mb-3">
+			@Html.LabelFor(model => model.FirstName)
+			@Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+		</div>
+
+		<div class="col-md-6 mb-3">
+			@Html.LabelFor(model => model.LastName)
+			@Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+		</div>
+
+		<div class="col-md-6 mb-3">
+			@Html.LabelFor(model => model.BirthDate)
+			@Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+		</div>
+
+		<div class="col-md-6 mb-3">
+			@Html.LabelFor(model => model.Email)
+			@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+		</div>
+
+		<div class="col-md-6 mb-3">
+			@Html.LabelFor(model => model.PhoneNumber)
+			@Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+		</div>
+
+		<div class="col-md-6 mb-3">
+			@Html.LabelFor(model => model.Salary)
+			<div class="input-group">
+				@Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+				<div class="input-group-append">
+					<span class="input-group-text">$</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-auto mt-3 mb-5">
+			@Html.ActionLink("Back", "Index", null, null, new { @class = "btn btn-light px-4" })
+		</div>
+
+		<div class="col-auto mt-3 mb-5 ml-auto">
+			@Html.ActionLink("Delete", "Delete", null, new { id = @Model.Id }, new { @class = "btn btn-danger px-4" })
+		</div>
+
+		<div class="col-auto mt-3 mb-5">
+			@Html.ActionLink("Edit", "Edit", null, new { id = @Model.Id }, new { @class = "btn btn-primary px-4" })
+		</div>
+
+	</div>
+}

@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SimpleCRUD.Infrastructure;
+using SimpleCRUD.Infrastructure.Repositories;
+using SimpleCRUD.Helpers;
 
 namespace SimpleCRUD
 {
@@ -31,6 +33,9 @@ namespace SimpleCRUD
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
+
+            services.AddScoped<EmployeeRepository>();
+            services.AddScoped<EmployeeConverter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

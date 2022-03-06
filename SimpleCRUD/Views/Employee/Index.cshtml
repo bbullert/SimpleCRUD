@@ -1,0 +1,44 @@
+﻿@model EmployeePaginationViewModel
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<div class="row">
+	<div class="col-12">
+		<table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">First name</th>
+                    <th scope="col">Last name</th>
+                    <th scope="col">Birth date</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col" class="text-right">Salary</th>
+                    <th scope="col" style="width: 0;">
+                        @Html.ActionLink("Add", "Create", null, null, new { @class = "btn btn-primary", @style = "width: 75px;" })
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model.Employees)
+                {
+                <tr>
+                    <td>@Html.DisplayFor(x => employee.FirstName)</td>
+                    <td>@Html.DisplayFor(x => employee.LastName)</td>
+                    <td>@Html.DisplayFor(x => employee.BirthDate)</td>
+                    <td>@Html.DisplayFor(x => employee.Email)</td>
+                    <td style="width: 145px;">@Html.DisplayFor(x => employee.PhoneNumber)</td>
+                    <td class="text-right">@Html.DisplayFor(x => employee.Salary) $</td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", null, new { id = @employee.Id }, new { @class = "btn btn-primary", @style = "width: 75px;" })
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+	</div>
+    <div class="col-12">
+        @await Html.PartialAsync("_Pagination", Model)
+    </div>
+</div>
